@@ -1,0 +1,38 @@
+[
+  {
+    "name": "heading",
+    "label": "Heading",
+    "type": "text",
+    "default": "Why teams pick us"
+  },
+  {
+    "name": "cards",
+    "label": "Feature cards",
+    "type": "group",
+    "occurrence": {
+      "min": 1,
+      "max": 6,
+      "default": 1
+    },
+    "children": [
+      {
+        "name": "card_title",
+        "label": "Title",
+        "type": "text",
+        "default": ""
+      },
+      {
+        "name": "card_body",
+        "label": "Body",
+        "type": "text",
+        "default": ""
+      }
+    ],
+    "default": [
+      {
+        "card_title": "Fast setup",
+        "card_body": "Live in a day, not a quarter."
+      }
+    ]
+  }
+]

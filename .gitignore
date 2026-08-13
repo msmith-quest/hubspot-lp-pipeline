@@ -1,0 +1,9 @@
+.venv/
+preview/
+config/config.json
+.env
+hubspot.config.yml
+__pycache__/
+.DS_Store
+theme-build/
+customers/

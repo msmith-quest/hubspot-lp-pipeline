@@ -1,0 +1,18 @@
+{
+  "portal_id": "YOUR-PORTAL-ID",
+  "theme_path": "my-lp-theme",
+  "family": "starter",
+  "domain": "",
+  "asset_base_url": "https://YOUR-PORTAL-ID.fs1.hubspotusercontent-REGION.net/hubfs/YOUR-PORTAL-ID/lp-assets",
+  "form": {
+    "form_id": "PASTE-YOUR-FORM-GUID",
+    "response_type": "inline",
+    "message": "",
+    "redirect_id": null,
+    "redirect_url": ""
+  },
+  "tracking": {
+    "gtm_container_id": ""
+  },
+  "custom_js": ""
+}

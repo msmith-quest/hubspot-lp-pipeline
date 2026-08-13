@@ -1,0 +1,39 @@
+[
+  {
+    "name": "eyebrow",
+    "label": "Eyebrow",
+    "type": "text",
+    "default": "For growing teams"
+  },
+  {
+    "name": "headline",
+    "label": "Headline",
+    "type": "text",
+    "required": true,
+    "default": "A headline that earns the click it came from."
+  },
+  {
+    "name": "subhead",
+    "label": "Subhead",
+    "type": "text",
+    "default": "One supporting sentence that says what the product does and for whom."
+  },
+  {
+    "name": "cta_label",
+    "label": "CTA label",
+    "type": "text",
+    "default": "Book a demo"
+  },
+  {
+    "name": "image",
+    "label": "Hero image",
+    "type": "image",
+    "responsive": false,
+    "default": {
+      "src": "",
+      "alt": "",
+      "width": 960,
+      "height": 640
+    }
+  }
+]

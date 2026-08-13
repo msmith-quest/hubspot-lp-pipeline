@@ -1,0 +1,21 @@
+[
+  {
+    "name": "heading",
+    "label": "Heading",
+    "type": "text",
+    "default": "See it on your data"
+  },
+  {
+    "name": "subtext",
+    "label": "Supporting text",
+    "type": "text",
+    "default": "Book a 30-minute walkthrough with a specialist."
+  },
+  {
+    "name": "form",
+    "label": "Form",
+    "type": "form",
+    "required": true,
+    "help_text": "Pick the portal form; submissions, tracking and thank-you behavior are the form's own."
+  }
+]

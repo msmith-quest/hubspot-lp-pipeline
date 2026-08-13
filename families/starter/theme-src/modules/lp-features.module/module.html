@@ -1,0 +1,13 @@
+<section aria-label="Features" style="background:#fff;padding:clamp(40px,6vw,72px) 24px">
+<div style="max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:28px">
+{% if module.heading %}<h2 style="margin:0;font-size:clamp(24px,3vw,36px);color:#14212B">{{ module.heading }}</h2>{% endif %}
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:22px">
+{% for card in module.cards %}
+<div style="border:1px solid #E4E7EA;border-radius:10px;padding:26px 24px;background:#FAFBFC">
+<h3 style="margin:0 0 8px 0;font-size:20px;color:#14212B">{{ card.card_title }}</h3>
+<p style="margin:0;font-size:16px;line-height:1.55;color:#44545F">{{ card.card_body }}</p>
+</div>
+{% endfor %}
+</div>
+</div>
+</section>

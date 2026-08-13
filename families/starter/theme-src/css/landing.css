@@ -1,0 +1,59 @@
+/* Starter family — base rules + the HubSpot V4 form skin.
+   Module markup keeps its inline styles for portability; this file carries
+   what can't be inlined (hover/focus/media rules) and the form skin.
+
+   The V4 form renders inline in your page DOM with stable hsfc-* classes.
+   HubSpot injects its own default form stylesheet that competes on font /
+   border / radius / width, so contested declarations need !important
+   (scoped under .hs-form-html, nothing leaks). */
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto !important; } }
+
+a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible {
+  outline: 3px solid #1F4FFF; outline-offset: 2px;
+}
+
+hs-cmsf-branding { display: none !important; }
+[hidden] { display: none !important; }
+
+/* ---- HubSpot V4 form skin -------------------------------------------- */
+.hs-form-html .hsfc-Form { font-family: inherit !important; }
+.hs-form-html .hsfc-Row + .hsfc-Row { margin-top: 14px !important; }
+.hs-form-html .hsfc-FieldLabel {
+  display: block !important; font-size: 14px !important; font-weight: 600 !important;
+  color: #14212B !important; margin-bottom: 6px !important;
+}
+.hs-form-html .hsfc-FieldLabel__RequiredIndicator { color: #D62518 !important; }
+.hs-form-html [data-hsfc-id="TextInput"] {
+  border: 1px solid #C3CCD3 !important; border-radius: 6px !important;
+  padding: 13px 14px !important; font-size: 16px !important;
+  font-family: inherit !important; color: #14212B !important; background: #fff !important;
+  min-height: 48px !important; width: 100% !important; box-sizing: border-box !important;
+}
+.hs-form-html .hsfc-PhoneInput { display: flex !important; align-items: stretch !important; }
+.hs-form-html .hsfc-PhoneInput__FlagAndCaret {
+  border: 1px solid #C3CCD3 !important; border-right: none !important;
+  border-radius: 6px 0 0 6px !important; background: #fff !important;
+  display: flex !important; align-items: center !important; padding: 0 10px !important;
+}
+.hs-form-html .hsfc-PhoneInput [data-hsfc-id="TextInput"] { border-radius: 0 6px 6px 0 !important; }
+.hs-form-html .hsfc-DropdownOptions {
+  background: #fff !important; border: 1px solid #C3CCD3 !important;
+  border-radius: 6px !important; box-shadow: 0 6px 18px rgba(0,0,0,.10) !important;
+}
+.hs-form-html .hsfc-DropdownOptions__List__ListItem {
+  padding: 10px 12px !important; font-size: 15px !important;
+  color: #14212B !important; cursor: pointer !important;
+}
+.hs-form-html .hsfc-DropdownOptions__List__ListItem:hover { background: #DEE9EE !important; }
+.hs-form-html .hsfc-NavigationRow { margin-top: 18px !important; }
+.hs-form-html .hsfc-Button {
+  background: #1F4FFF !important; color: #fff !important; border: none !important;
+  border-radius: 6px !important; padding: 15px 24px !important; min-height: 52px !important;
+  width: 100% !important; font-family: inherit !important; font-size: 17px !important;
+  font-weight: 600 !important; cursor: pointer !important;
+}
+.hs-form-html .hsfc-Button:hover { filter: brightness(.92); }
+.hs-form-html .hsfc-NavigationRow__Alerts { color: #8E1508 !important; font-size: 14px !important; }
+.hs-form-html .hsfc-ErrorAlert { color: #8E1508 !important; font-size: 13px !important; margin-top: 4px !important; }

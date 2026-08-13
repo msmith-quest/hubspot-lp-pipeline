@@ -1,0 +1,38 @@
+[
+  {
+    "name": "heading",
+    "label": "Heading",
+    "type": "text",
+    "default": "Common questions"
+  },
+  {
+    "name": "items",
+    "label": "Questions",
+    "type": "group",
+    "occurrence": {
+      "min": 1,
+      "max": 12,
+      "default": 1
+    },
+    "children": [
+      {
+        "name": "question",
+        "label": "Question",
+        "type": "text",
+        "default": ""
+      },
+      {
+        "name": "answer",
+        "label": "Answer",
+        "type": "richtext",
+        "default": ""
+      }
+    ],
+    "default": [
+      {
+        "question": "How long does onboarding take?",
+        "answer": "Most teams are live within a week."
+      }
+    ]
+  }
+]

@@ -1,0 +1,13 @@
+<section aria-label="Hero" style="background:#F6F4EF;padding:clamp(40px,7vw,88px) 24px">
+<div style="max-width:1040px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
+<div style="display:flex;flex-direction:column;gap:18px;align-items:flex-start">
+{% if module.eyebrow %}<div style="font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#5A6B7A">{{ module.eyebrow }}</div>{% endif %}
+<h1 style="margin:0;font-size:clamp(32px,4.5vw,56px);line-height:1.1;color:#14212B">{{ module.headline }}</h1>
+{% if module.subhead %}<p style="margin:0;font-size:19px;line-height:1.6;color:#44545F;max-width:56ch">{{ module.subhead }}</p>{% endif %}
+<a href="#demo" style="background:#1F4FFF;color:#fff;border-radius:6px;padding:16px 28px;font-size:17px;font-weight:600;text-decoration:none;display:inline-flex">{{ module.cta_label }}</a>
+</div>
+{% if module.image.src %}
+<img alt="{{ module.image.alt }}" src="{{ module.image.src }}" width="{{ module.image.width }}" height="{{ module.image.height }}" style="display:block;width:100%;height:auto;border-radius:10px">
+{% endif %}
+</div>
+</section>

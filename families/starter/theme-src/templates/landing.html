@@ -1,0 +1,85 @@
+<!--
+  templateType: page
+  isAvailableForNewContent: true
+  label: LP Pipeline — Landing
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  {# no viewport meta — HubSpot injects its own; a second one trips the page audit #}
+  <!-- IF:tracking.gtm_container_id -->
+  {# Google Consent Mode defaults, synchronous and BEFORE GTM, so no tag can
+     fire without a resolved default. Region-scoped: denied for EEA/UK/CH,
+     granted elsewhere (opt-out model). Adjust regions to your legal posture.
+     The whole tracking stack is suppressed inside the HubSpot editor. #}
+  {% if not is_in_editor %}
+  <script>
+(function () {
+window.dataLayer = window.dataLayer || [];
+function gtag () { dataLayer.push(arguments) }
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  analytics_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  functionality_storage: 'granted',
+  security_storage: 'granted',
+  region: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH']
+});
+gtag('consent', 'default', {
+  ad_storage: 'granted',
+  analytics_storage: 'granted',
+  ad_user_data: 'granted',
+  ad_personalization: 'granted',
+  functionality_storage: 'granted',
+  security_storage: 'granted'
+});
+gtag('set', 'ads_data_redaction', true);
+})();
+  </script>
+  <script>
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','__GTM_CONTAINER_ID__');
+  </script>
+  {% endif %}
+  <!-- ENDIF -->
+  <title>{{ page_meta.html_title }}</title>
+  {% if page_meta.meta_description %}
+  <meta name="description" content="{{ page_meta.meta_description }}">
+  <meta property="og:description" content="{{ page_meta.meta_description }}">
+  {% endif %}
+  <meta property="og:title" content="{{ page_meta.html_title }}">
+  {{ require_css(get_asset_url("../css/landing.css")) }}
+  {{ standard_header_includes }}
+</head>
+<body style="margin:0;background:#F6F4EF;color:#14212B;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;-webkit-font-smoothing:antialiased">
+<!-- IF:tracking.gtm_container_id -->
+{% if not is_in_editor %}
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=__GTM_CONTAINER_ID__" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+{% endif %}
+<!-- ENDIF -->
+<header style="background:#fff;border-bottom:1px solid #E4E7EA;padding:16px 24px;display:flex;align-items:center;justify-content:space-between">
+  <a href="#" style="font-weight:700;letter-spacing:.06em;color:#14212B;text-decoration:none">YOUR&nbsp;LOGO</a>
+  <a href="#demo" style="background:#1F4FFF;color:#fff;border-radius:6px;padding:11px 20px;font-size:15px;font-weight:600;text-decoration:none">Book a demo</a>
+</header>
+<main>
+{% module "lp_hero" path="../modules/lp-hero" %}
+{% module "lp_features" path="../modules/lp-features" %}
+{% module "lp_faq" path="../modules/lp-faq" %}
+{% module "lp_form" path="../modules/lp-form" %}
+</main>
+<footer style="background:#14212B;color:#9FB0BA;font-size:13.5px;padding:28px 24px">
+  &copy; {{ year }} Your Company &middot; <a href="/privacy" style="color:#9FB0BA">Privacy</a>
+</footer>
+{{ require_js(get_asset_url("../js/lp.js"), "footer") }}
+<!-- IF:custom_js -->
+{# customer-supplied JS (config "custom_js"): CMP bootstraps, schedulers,
+   pixels — anything unique to one org stays out of the shared toolkit #}
+{{ require_js(get_asset_url("../js/custom.js"), "footer") }}
+<!-- ENDIF -->
+{{ standard_footer_includes }}
+</body>
+</html>
