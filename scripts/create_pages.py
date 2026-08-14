@@ -115,7 +115,9 @@ def module_ids(headers):
 def build_dnd_module(idx, module_type, fields, cfg, headers):
     params = {k: ("" if v is None else v) for k, v in fields.items()}
     if module_type.endswith("-form"):
-        params["form"] = cfg["form"]
+        # per-page post-submit message (localized pages) overrides config
+        message = params.pop("form_message", "")
+        params["form"] = dict(cfg["form"], **({"message": message} if message else {}))
     mid = module_ids(headers).get(module_type)
     if mid is None:
         sys.exit(f"module {module_type} not found in portal — upload the theme first")
@@ -148,10 +150,13 @@ def build_blocks_payload(manifest, cfg, headers):
             "rows": rows,
         }},
     }
+    if manifest.get("widgets"):
+        # fixed template modules (e.g. the header) alongside the dnd area
+        payload["widgets"] = build_widgets(manifest, cfg)
     if manifest.get("form_section") is not None:
         form_body = dict(manifest["form_section"])
         form_body["form"] = cfg["form"]
-        payload["widgets"] = {manifest.get("form_module", "lp_form"): {"body": form_body}}
+        payload.setdefault("widgets", {})[manifest.get("form_module", "lp_form")] = {"body": form_body}
     if cfg.get("domain"):
         payload["domain"] = cfg["domain"]
     if manifest.get("noindex"):
