@@ -55,7 +55,7 @@ Then connect a portal (PLAYBOOK phases 0 and 5–6), still from
 ```bash
 npm i -g @hubspot/cli && hs init
 hs cms upload theme-build my-lp-theme
-cp ../../.env.example .env               # paste your API token
+cp .env.example .env                     # paste your API token
 ../../.venv/bin/python ../../scripts/create_pages.py --dry-run
 ../../.venv/bin/python ../../scripts/create_pages.py --only acme-home
 ../../.venv/bin/python ../../scripts/create_pages.py --inspect <pageId>   # verify shape

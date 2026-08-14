@@ -1,0 +1,58 @@
+{
+  "file": "acme-home.html",
+  "template_file": "templates/landing.html",
+  "html_title": "Inventory Software for Growing Shops | Acme",
+  "meta_description": "Acme keeps your counts current and your books in sync. Plans from $99/mo.",
+  "slug": "go/acme-home",
+  "internal_name": "acme-home — /go/acme-home",
+  "noindex": true,
+  "widgets": {
+    "lp_hero": {
+      "eyebrow": "For workshops that outgrew spreadsheets",
+      "headline": "Know what's on the shelf. Always.",
+      "subhead": "Acme records every receive, pick, and ship as it happens, so your count is current when you open it.",
+      "cta_label": "Book a demo",
+      "image": {
+        "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iNjQwIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjY0MCIgZmlsbD0iIzFGNEZGRiIvPjx0ZXh0IHg9IjQ4MCIgeT0iMzM1IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSI0OCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UHJvZHVjdCBzY3JlZW5zaG90PC90ZXh0Pjwvc3ZnPg==",
+        "alt": "The Acme dashboard showing live stock counts",
+        "width": 960,
+        "height": 640
+      }
+    },
+    "lp_features": {
+      "heading": "Why shops pick Acme",
+      "cards": [
+        {
+          "card_title": "Counts that stay true",
+          "card_body": "Every movement updates the count the moment it happens."
+        },
+        {
+          "card_title": "Books in sync",
+          "card_body": "Two-way sync with your accounting stack, no re-keying."
+        },
+        {
+          "card_title": "Set up in a day",
+          "card_body": "Import your items before lunch; scan your first pick after."
+        }
+      ]
+    },
+    "lp_faq": {
+      "heading": "Common questions",
+      "items": [
+        {
+          "question": "How long does onboarding take?",
+          "answer": "Most shops are live within a week, including data import."
+        },
+        {
+          "question": "What does it cost?",
+          "answer": "Plans start at $99/mo, billed annually. No per-scan fees."
+        }
+      ]
+    },
+    "lp_form": {
+      "heading": "See it on your inventory",
+      "subtext": "Book a 30-minute walkthrough — we'll use scenarios like yours.",
+      "__form__": true
+    }
+  }
+}
