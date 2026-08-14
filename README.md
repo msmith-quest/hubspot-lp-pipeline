@@ -25,8 +25,7 @@ nameless widgets, form-publish caching, and more.
 | `scripts/render_preview.py` | Local previews via a mini-HubL evaluator — parity-check against the source HTML with no HubSpot in the loop. |
 | `scripts/create_pages.py` | Idempotent page sync: update drafts by slug, create missing, refuse published (`--update-published` stages a reviewable draft buffer). Supports fixed-slot (`widgets`) and drag-and-drop (`layoutSections`) templates. |
 | `scripts/extract_assets.py` | Pulls base64 images out of source pages for File Manager upload. |
-| `families/starter/` | A complete worked example family: template, four modules, form-skin CSS, consent+GTM bootstrap, extractor. Copy it to build your own. Org-specific JS (CMP SDK, schedulers, pixels) plugs in via the `custom_js` config hook. |
-| `examples/acme-home.html` | A sample incoming page that runs the whole pipeline. |
+| `customers/demo/` | A complete worked example customer: the `starter` family (template, four modules, form-skin CSS, consent+GTM bootstrap, extractor) plus the acme sample page. Copy it to start your own. Org-specific JS (CMP SDK, schedulers, pixels) plugs in via the `custom_js` config hook. |
 | `docs/hubspot-gotchas.md` | The expensive lessons, so you don't repay them. |
 | `docs/design-handoff-instructions.md` | Paste-ready rules for the design tool producing your pages. |
 | `docs/tracking-integrations.md` | Consent-before-GTM, post-submit scheduling, pixel patterns. |
@@ -34,47 +33,55 @@ nameless widgets, form-publish caching, and more.
 
 ## Quickstart (no HubSpot needed for the first three steps)
 
+Everything runs inside a customer directory; `customers/demo/` is the
+worked example, already populated with the acme sample page:
+
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+cd customers/demo
 cp config/config.example.json config/config.json   # fill in as you go
-cp examples/acme-home.html source/
 
-.venv/bin/python scripts/triage.py source/acme-home.html   # -> FITS
-.venv/bin/python scripts/extract_assets.py
-.venv/bin/python scripts/build_manifests.py
-.venv/bin/python scripts/apply_config.py
-.venv/bin/python scripts/render_preview.py
+../../.venv/bin/python ../../scripts/triage.py source/acme-home.html   # -> FITS
+../../.venv/bin/python ../../scripts/extract_assets.py
+../../.venv/bin/python ../../scripts/build_manifests.py
+../../.venv/bin/python ../../scripts/apply_config.py
+../../.venv/bin/python ../../scripts/render_preview.py
 # open preview/ over any static server and compare page vs original
 ```
 
-Then connect a portal (PLAYBOOK phases 0 and 5–6):
+Then connect a portal (PLAYBOOK phases 0 and 5–6), still from
+`customers/demo/`:
 
 ```bash
 npm i -g @hubspot/cli && hs init
 hs cms upload theme-build my-lp-theme
-cp .env.example .env                     # paste your API token
-.venv/bin/python scripts/create_pages.py --dry-run
-.venv/bin/python scripts/create_pages.py --only acme-home
-.venv/bin/python scripts/create_pages.py --inspect <pageId>   # verify shape
+cp ../../.env.example .env               # paste your API token
+../../.venv/bin/python ../../scripts/create_pages.py --dry-run
+../../.venv/bin/python ../../scripts/create_pages.py --only acme-home
+../../.venv/bin/python ../../scripts/create_pages.py --inspect <pageId>   # verify shape
 ```
 
-## Multi-project / consultancy layout
+## Multi-customer / consultancy layout
 
 The scripts resolve their working root via `LP_ROOT`, or by finding the
-nearest ancestor of your current directory containing `config/config.json`
-(falling back to this repo). So you can keep this repo as the shared
-toolkit and run any number of self-contained project directories against
-it — e.g. a gitignored `customers/<name>/` holding that project's
-`config/`, `families/`, `source/`, `manifests/`, and `.env`, versioned as
-its own private repo:
+nearest ancestor of your current directory containing `config/config.json`.
+Keep this repo as the shared toolkit and run any number of self-contained
+customer directories against it, each holding its own `config/`,
+`families/`, `source/`, `manifests/`, and `.env`:
 
 ```bash
-cd customers/acme
+cd customers/<name>
 python ../../scripts/triage.py source/new-page.html   # root auto-discovered
 ```
 
-A project directory needs a `families/__init__.py` so its extractors are
-importable. `customers/` is gitignored here by default.
+A customer directory needs a `families/__init__.py` so its extractors are
+importable. Everything under `customers/` except the `demo` example is
+gitignored, so real customer directories can be versioned as their own
+private repos. To start a new customer, copy the demo:
+
+```bash
+cp -r customers/demo customers/<name>
+```
 
 ## The three rules the whole thing rests on
 

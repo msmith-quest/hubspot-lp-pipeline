@@ -6,15 +6,16 @@ precedence order:
 
 1. LP_ROOT environment variable — explicit.
 2. The current directory (or the nearest ancestor) containing
-   config/config.json — so `cd customers/acme && python <repo>/scripts/...`
+   config/config.json — so `cd customers/<name> && python <repo>/scripts/...`
    just works.
-3. The repository root itself — the single-project layout.
+3. The repository root itself — a fallback for out-of-tree layouts.
 
 This is what makes the multi-customer / consultancy layout work: keep this
 repo as the toolkit, and run it against any number of self-contained
-customer directories (typically gitignored here and versioned as their own
-private repos). A customer directory needs its own `families/__init__.py`
-so its extractors are importable.
+customer directories under customers/ (all gitignored except the demo
+example, so real ones are versioned as their own private repos). A customer
+directory needs its own `families/__init__.py` so its extractors are
+importable.
 """
 import os
 import pathlib

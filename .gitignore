@@ -1,9 +1,12 @@
 .venv/
 preview/
-config/config.json
+**/config/config.json
 .env
 hubspot.config.yml
 __pycache__/
 .DS_Store
 theme-build/
-customers/
+# customer directories are private repos of their own; only the worked
+# example ships with the toolkit
+customers/*
+!customers/demo/

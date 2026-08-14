@@ -89,8 +89,8 @@ intentional (e.g. placeholder form markup the template replaces).
 
 A *family* = one design system: a coded template, a set of modules, and an
 extractor. You build it once; afterwards every page in that family is a
-few-minute import. The `families/starter/` directory is a complete worked
-example. The recipe:
+few-minute import. The `customers/demo/families/starter/` directory is a
+complete worked example. The recipe:
 
 1. **Fingerprint the corpus.** Across all pages of the family, list each
    page's ordered sections and the distinctive block types inside them
