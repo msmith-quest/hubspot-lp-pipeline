@@ -36,8 +36,16 @@ PLACEHOLDER_MARK = "HubSpot form renders here"
 
 def norm_style(style):
     style = re.sub(r"url\([^)]*\)", "url(#)", style or "")
-    decls = sorted(" ".join(d.split()) for d in style.split(";") if d.strip())
-    return ";".join(decls)
+    # strip ALL whitespace inside declarations: the sources minify
+    # inconsistently ("opacity.9s" vs "opacity .9s") and CSS tokenizes
+    # both identically, so the space is not a real difference; keep only
+    # the LAST declaration per property, as the cascade does
+    by_prop = {}
+    for d in style.split(";"):
+        if d.strip():
+            decl = "".join(d.split())
+            by_prop[decl.split(":", 1)[0]] = decl
+    return ";".join(sorted(by_prop.values()))
 
 
 def tokens(root):
@@ -52,6 +60,13 @@ def strip_expected(soup, is_preview):
     for el in soup.find_all(["script", "style", "noscript"]):
         el.decompose()
     for el in soup.find_all(class_="review-chrome"):
+        el.decompose()
+    # hidden-attr elements are invisible alternate states (e.g. the source's
+    # post-submit message, replaced by the HubSpot form's own response)
+    for el in soup.find_all(hidden=True):
+        el.decompose()
+    # interactive form interiors — the HubSpot form embed replaces them
+    for el in soup.find_all(attrs={"data-when": "not-done"}):
         el.decompose()
     if is_preview:
         for el in soup.find_all("div"):
