@@ -180,6 +180,9 @@ def render_page(manifest):
     template = re.sub(r"\{#.*?#\}", "", template, flags=re.S)  # HubL comments
     nodes, _ = parse(TOKENS.split(template))
     html = render_nodes(nodes, ctx, widgets)
+    if manifest.get("head_css"):
+        # per-page CSS travels in headHtml on HubSpot; mirror it here
+        html = html.replace("</head>", "<style>\n" + manifest["head_css"] + "\n</style>\n</head>", 1)
     return html.replace("asset://", "../assets/")
 
 

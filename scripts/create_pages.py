@@ -80,8 +80,9 @@ def resolve_assets(node, base_url):
         return {k: resolve_assets(v, base_url) for k, v in node.items()}
     if isinstance(node, list):
         return [resolve_assets(v, base_url) for v in node]
-    if isinstance(node, str) and node.startswith("asset://"):
-        return f"{base_url.rstrip('/')}/{node[len('asset://'):]}"
+    if isinstance(node, str) and "asset://" in node:
+        # whole-value placeholders AND ones embedded in rich-HTML fields
+        return node.replace("asset://", base_url.rstrip("/") + "/")
     return node
 
 
@@ -159,9 +160,24 @@ def build_blocks_payload(manifest, cfg, headers):
         payload.setdefault("widgets", {})[manifest.get("form_module", "lp_form")] = {"body": form_body}
     if cfg.get("domain"):
         payload["domain"] = cfg["domain"]
-    if manifest.get("noindex"):
-        payload["headHtml"] = '<meta name="robots" content="noindex">'
+    head_html = build_head_html(manifest)
+    if head_html:
+        payload["headHtml"] = head_html
     return payload
+
+
+def build_head_html(manifest):
+    """Per-page head: noindex flag plus optional page-scoped CSS.
+
+    head_css carries a one-off page's own stylesheet (bespoke imports whose
+    design isn't shared by any family CSS) so the design travels with the
+    page instead of bloating the theme."""
+    parts = []
+    if manifest.get("noindex"):
+        parts.append('<meta name="robots" content="noindex">')
+    if manifest.get("head_css"):
+        parts.append("<style>\n" + manifest["head_css"] + "\n</style>")
+    return "\n".join(parts)
 
 
 def build_payload(manifest, cfg, headers=None):
@@ -178,9 +194,9 @@ def build_payload(manifest, cfg, headers=None):
     }
     if cfg.get("domain"):
         payload["domain"] = cfg["domain"]
-    if manifest.get("noindex"):
-        # per-page head override; noindex at launch per the source comments
-        payload["headHtml"] = '<meta name="robots" content="noindex">'
+    head_html = build_head_html(manifest)
+    if head_html:
+        payload["headHtml"] = head_html
     return payload
 
 
