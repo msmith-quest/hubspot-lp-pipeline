@@ -98,6 +98,17 @@ fields.json DEFAULT for it. Two consequences:
   Send explicit empty values ("" / []) so they override the defaults —
   this toolkit's create_pages.py does.
 
+## Repeater `min` occurrence blocks editor saves
+
+A group field with `"occurrence": {"min": 1}` makes the EDITOR refuse to
+save any page whose stored value is an empty list ("The list of X requires
+at least 1 entries. There are 0.") — the API sync writes the empty value
+happily, so the trap only fires later, on a human editing an unrelated
+part of the page. When imports are the copy channel and sections come and
+go between design rounds, set `min: 0` on every repeater and guard the
+module template (`{% if module.<repeater> %}`) so an empty module renders
+nothing instead of an empty shell.
+
 ## Editor & preview
 
 - The HubSpot editor serves its own **report-only CSP** — every external
