@@ -163,6 +163,9 @@ def build_blocks_payload(manifest, cfg, headers):
     head_html = build_head_html(manifest)
     if head_html:
         payload["headHtml"] = head_html
+    if manifest.get("foot_js"):
+        # page-scoped behavior (bespoke imports), mirror of head_css
+        payload["footerHtml"] = "<script>\n" + manifest["foot_js"] + "\n</script>"
     return payload
 
 
@@ -197,6 +200,9 @@ def build_payload(manifest, cfg, headers=None):
     head_html = build_head_html(manifest)
     if head_html:
         payload["headHtml"] = head_html
+    if manifest.get("foot_js"):
+        # page-scoped behavior (bespoke imports), mirror of head_css
+        payload["footerHtml"] = "<script>\n" + manifest["foot_js"] + "\n</script>"
     return payload
 
 

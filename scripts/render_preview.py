@@ -183,6 +183,9 @@ def render_page(manifest):
     if manifest.get("head_css"):
         # per-page CSS travels in headHtml on HubSpot; mirror it here
         html = html.replace("</head>", "<style>\n" + manifest["head_css"] + "\n</style>\n</head>", 1)
+    if manifest.get("foot_js"):
+        # per-page JS travels in footerHtml on HubSpot; mirror it here
+        html = html.replace("</body>", "<script>\n" + manifest["foot_js"] + "\n</script>\n</body>", 1)
     return html.replace("asset://", "../assets/")
 
 
