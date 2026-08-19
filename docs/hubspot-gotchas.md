@@ -82,6 +82,17 @@ it is well-documented upstream.
   fallback in JS. Check your plan's terms before removing branding.
 - Embedding the **same form twice** on a page (inline + modal) works; each
   instance gets unique ids.
+- **Never put the `hs-form-html` class on your own wrappers.** The V4 embed
+  script boots every `.hs-form-html` element on the page; one without the
+  generated `data-form-id`/`data-portal-id` attributes logs "has missing or
+  invalid data attributes" and can leave the real targets unrendered. The
+  class belongs exclusively to the target divs `{% form %}` generates.
+- **Form-type module fields reject `"default": null`** — the binding fails
+  silently and `{% form %}` renders nothing. Declare them like the working
+  modules: `{"type": "form", "required": true}`, no default. Corollary:
+  clone a proven fields.json for new modules instead of writing fresh JSON
+  (a nested occurrence-group for an image round-trips as a LIST in HubL,
+  which is the same class of quiet breakage).
 - Multi-step vs single-step is form-definition structure ("steps" in the
   editor); the same form serves every embed, so flattening it changes
   every page using it.
