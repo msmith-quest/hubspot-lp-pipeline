@@ -22,6 +22,14 @@ it is well-documented upstream.
   picker's search / "All templates" view.
 - Don't ship your own `<meta name="viewport">` — HubSpot injects one, and
   two of them trips the page audit.
+- **No HTML-looking strings in CSS files — even in comments.** Upload
+  validation content-sniffs each file; a tag-shaped string in a CSS
+  comment (writing the html element in angle brackets was enough) fails
+  the whole file with "line 0: Can not save html to a css file", while
+  the rest of the theme uploads around it — templates can go live
+  referencing a stylesheet that never arrived. Grep new CSS for `<`
+  before upload, and read the CLI output for per-file errors, not just
+  the final line.
 
 ## Pages API (v3, `/cms/v3/pages/landing-pages`)
 
