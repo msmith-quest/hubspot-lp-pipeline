@@ -96,6 +96,13 @@ it is well-documented upstream.
 - Multi-step vs single-step is form-definition structure ("steps" in the
   editor); the same form serves every embed, so flattening it changes
   every page using it.
+- **The post-submit state can't be removed.** A V4 embed always renders
+  something after submit — an inline message or a redirect; the forms UI
+  has no "stay on the form" option (the message text is per-embed:
+  `response_message` on `{% form %}`). To hand off to a scheduler without
+  the thank-you flash, hide it with page CSS/JS on the success event and
+  reveal it if the scheduler never arrives — it's the blocked/no-consent
+  fallback (tracking-integrations.md, rule 7).
 
 ## Module field defaults resurrect removed content
 

@@ -100,6 +100,15 @@ window.addEventListener('hs-form-event:on-submission:success', function () {
 6. Load the scheduler script **behind functional-cookie consent** if you
    run a CMP, and preload it once consent exists so the calendar opens
    instantly on submit.
+7. **Suppressing the thank-you flash**: a V4 form always renders a
+   post-submit state (inline message or redirect) — the forms UI cannot
+   remove that step, so when the scheduler takes over it flashes between
+   submit and the booking UI. Since you own the page: on the success
+   event, set a class on `<html>` whose CSS hides the embed's post-submit
+   DOM behind a spinner (hide the container's *children*, not a guessed
+   thank-you class — the swapped-in DOM is undocumented), and remove the
+   class when the scheduler closes, errors, or never arrives. The inline
+   message must stay reachable — it is rule 5's fallback.
 
 ## Ad/conversion pixels
 
