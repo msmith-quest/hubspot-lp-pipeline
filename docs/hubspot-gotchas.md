@@ -22,6 +22,14 @@ it is well-documented upstream.
   picker's search / "All templates" view.
 - Don't ship your own `<meta name="viewport">` — HubSpot injects one, and
   two of them trips the page audit.
+- **No HTML-looking strings in CSS files — even in comments.** Upload
+  validation content-sniffs each file; a tag-shaped string in a CSS
+  comment (writing the html element in angle brackets was enough) fails
+  the whole file with "line 0: Can not save html to a css file", while
+  the rest of the theme uploads around it — templates can go live
+  referencing a stylesheet that never arrived. Grep new CSS for `<`
+  before upload, and read the CLI output for per-file errors, not just
+  the final line.
 
 ## Pages API (v3, `/cms/v3/pages/landing-pages`)
 
@@ -82,9 +90,27 @@ it is well-documented upstream.
   fallback in JS. Check your plan's terms before removing branding.
 - Embedding the **same form twice** on a page (inline + modal) works; each
   instance gets unique ids.
+- **Never put the `hs-form-html` class on your own wrappers.** The V4 embed
+  script boots every `.hs-form-html` element on the page; one without the
+  generated `data-form-id`/`data-portal-id` attributes logs "has missing or
+  invalid data attributes" and can leave the real targets unrendered. The
+  class belongs exclusively to the target divs `{% form %}` generates.
+- **Form-type module fields reject `"default": null`** — the binding fails
+  silently and `{% form %}` renders nothing. Declare them like the working
+  modules: `{"type": "form", "required": true}`, no default. Corollary:
+  clone a proven fields.json for new modules instead of writing fresh JSON
+  (a nested occurrence-group for an image round-trips as a LIST in HubL,
+  which is the same class of quiet breakage).
 - Multi-step vs single-step is form-definition structure ("steps" in the
   editor); the same form serves every embed, so flattening it changes
   every page using it.
+- **The post-submit state can't be removed.** A V4 embed always renders
+  something after submit — an inline message or a redirect; the forms UI
+  has no "stay on the form" option (the message text is per-embed:
+  `response_message` on `{% form %}`). To hand off to a scheduler without
+  the thank-you flash, hide it with page CSS/JS on the success event and
+  reveal it if the scheduler never arrives — it's the blocked/no-consent
+  fallback (tracking-integrations.md, rule 7).
 
 ## Module field defaults resurrect removed content
 
@@ -97,6 +123,17 @@ fields.json DEFAULT for it. Two consequences:
 - A sync that OMITS empty fields from its payload triggers exactly that.
   Send explicit empty values ("" / []) so they override the defaults —
   this toolkit's create_pages.py does.
+
+## Repeater `min` occurrence blocks editor saves
+
+A group field with `"occurrence": {"min": 1}` makes the EDITOR refuse to
+save any page whose stored value is an empty list ("The list of X requires
+at least 1 entries. There are 0.") — the API sync writes the empty value
+happily, so the trap only fires later, on a human editing an unrelated
+part of the page. When imports are the copy channel and sections come and
+go between design rounds, set `min: 0` on every repeater and guard the
+module template (`{% if module.<repeater> %}`) so an empty module renders
+nothing instead of an empty shell.
 
 ## Editor & preview
 

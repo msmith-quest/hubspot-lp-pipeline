@@ -107,6 +107,15 @@ complete worked example. The recipe:
    - Variable composition/order → a `dnd_area` template with one module
      per block type; content syncs via `layoutSections`. More powerful,
      more API surface (see gotchas: module IDs).
+   - **One-off designs** that share no vocabulary with any family don't
+     earn modules: import every section verbatim as rich-HTML blocks in a
+     shared-chrome `dnd_area` template, carry the page's own `<style>`
+     blocks via the manifest `head_css` key (the sync renders them into
+     the page's `headHtml`, after the theme CSS so page rules win), and
+     swap the section holding the page's hand-built form for your real
+     form block. Pixel-true and minutes per page; the trade is copy edits
+     happen in raw HTML rather than fields. Promote a one-off to a real
+     family only when a second page arrives in the same design.
 3. **Dump one representative instance of each block** from the corpus and
    transplant its markup into a module, replacing content with HubL fields.
    Keep the source's inline styles verbatim — pixel parity beats elegance

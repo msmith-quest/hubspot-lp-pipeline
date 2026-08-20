@@ -115,8 +115,9 @@ def parse(tokens, i=0, stop=None):
                         break
                 nodes.append(("dnd",))
             elif word == "module":
-                m = re.match(r'module\s+"(\w+)"', tag)
-                nodes.append(("module", m.group(1)))
+                m = re.match(r'module\s+"(\w+)"(?:\s+path="([^"]+)")?', tag)
+                folder = (m.group(2) or m.group(1)).rsplit("/", 1)[-1]
+                nodes.append(("module", m.group(1), folder))
             elif word == "form":
                 nodes.append(("text", FORM_PLACEHOLDER))
             else:
@@ -160,7 +161,10 @@ def render_nodes(nodes, ctx, widgets):
                 out.append(render_module(block["type"], block["fields"], ctx, widgets))
         elif kind == "module":
             name = node[1]
-            out.append(render_module(name.replace("_", "-"), widgets.get(name, {}), ctx, widgets))
+            # the template's path= names the module folder; instance names
+            # may differ (e.g. cmp_ratingsbar reusing slp-ratingsbar)
+            folder = node[2] if len(node) > 2 and node[2] else name.replace("_", "-")
+            out.append(render_module(folder, widgets.get(name, {}), ctx, widgets))
     return "".join(out)
 
 
@@ -180,6 +184,12 @@ def render_page(manifest):
     template = re.sub(r"\{#.*?#\}", "", template, flags=re.S)  # HubL comments
     nodes, _ = parse(TOKENS.split(template))
     html = render_nodes(nodes, ctx, widgets)
+    if manifest.get("head_css"):
+        # per-page CSS travels in headHtml on HubSpot; mirror it here
+        html = html.replace("</head>", "<style>\n" + manifest["head_css"] + "\n</style>\n</head>", 1)
+    if manifest.get("foot_js"):
+        # per-page JS travels in footerHtml on HubSpot; mirror it here
+        html = html.replace("</body>", "<script>\n" + manifest["foot_js"] + "\n</script>\n</body>", 1)
     return html.replace("asset://", "../assets/")
 
 
